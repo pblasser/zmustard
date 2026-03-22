@@ -5,6 +5,13 @@ fart=1/10
 high=0
 
 Element={dx=0,dy=0}
+Element:new(x,y)
+ o={dx=x,dy=y}
+ setmetatqble(o,self)
+ 
+ self.dx=x
+ self.dy=y
+ 
 function Element:retact()
 extrude narg
  print("G0z%d\n",high+2
