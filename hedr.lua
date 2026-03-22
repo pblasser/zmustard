@@ -39,6 +39,9 @@ function Element:pythag
 function Element:secant(xyxxyyr
 
  return x,y
+         Turrets
+         Spyrals
+         Bullets
 function Element:archto(x,y,z,r)
  radius calc re
  oront 2 x,y,
@@ -46,7 +49,7 @@ function Element:archto(x,y,z,r)
 Towers=Element:new()
 Tower
 
-Weaves
+Weaver
 
 
 eaves
