@@ -31,27 +31,65 @@ function Element:skimto(x,y)
  update(xy)
  puddon
 end
-function Element:lineto(x,y,z)
+function Bottle:lineto(x,y,z)
+z=z or high
  print(x+dx,y,hogh 
+ update
 end
 Towers
-function Element:pythag
-function Element:secant(xyxxyyr
-
+function Bottle:pythag
+function Bottle:secant(xyxxyyr
+element.build(self,dz)
+ self.hogh+=dz
+end
+ 
  return x,y
-         Fortiss
- cthet
+         Towers
+ cthet=0
  radio
-         Turrets
-inter
-patty
+ skimto(0,radio)
+ heightransfer(deth
+  radio*deth/pi*tier
+  
+archto
+  heigh+=heoghteansfwr(th)
+  ox,oy=radiosign
+cthet+=th
+ x,y=radiosign
+  printg2 dx+tx, dy+ty, -ox,-oy,hogh
+
+circle(heoghtransfer)
+ self.heightransfer=0
+ arch(pi)arch(pi)
+ self.heogjtransfer=nil
+fundament=corcle
+buold
+ archto(pi,thetatransfer
+         Turret
+interup=pi/39
+pattern=2pi/3-interrup
+
 thetatransfer
-         Spyrals
+build(sself,dz)
+dryarchto(interup)
+archto(twopi-interup)
+archto(pattern)
+         Spyral
  polys
  march
-
-         Bullets
+ heoghtransfer(theta)
+  radiotan
+  pyth*tier
+  
+ lineto(theta)
+  cthet+=thetatransfer
+  heoghtransfer(th)
+  radiosogn
+  super.lineto(xyhogh
  radiotransfer
+
+         Bullet
+ 
 
 function Element:archto(x,y,z,r)
  radius calc re
@@ -72,4 +110,10 @@ poslude
 print("M140 S67\n")
 print(arg[1])
 
+cpner.build
+fortiss.fundament
+ tower.build(cpnerself,dz)
+ tirret.build(cpnerself,dz
+ coner.build
 
+coner.new()...
