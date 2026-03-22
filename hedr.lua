@@ -39,9 +39,20 @@ function Element:pythag
 function Element:secant(xyxxyyr
 
  return x,y
+         Fortiss
+ cthet
+ radio
          Turrets
+inter
+patty
+thetatransfer
          Spyrals
+ polys
+ march
+
          Bullets
+ radiotransfer
+
 function Element:archto(x,y,z,r)
  radius calc re
  oront 2 x,y,
@@ -55,7 +66,8 @@ Weaver
 eaves
 spires
 
-
+prelude
+poslude
 
 print("M140 S67\n")
 print(arg[1])
