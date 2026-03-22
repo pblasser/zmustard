@@ -5,7 +5,7 @@ fart=1/10
 high=0
 
 Element={dx=0,dy=0}
-function Element.retact()
+function Element:retact()
 extrude narg
  print("G0z%d\n",high+2
 end
@@ -13,9 +13,9 @@ function Element.puddon()
  extrude zerp
 p g1 + high slow
 end
-function Element.skimto(x,y)
+function Element:skimto(x,y)
  retract
- print(x+dx 
+ print(x+self.dx 
  puddon
 end
 
