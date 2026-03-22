@@ -4,7 +4,7 @@ feed=1500
 fart=1/10
 high=0
 
-Element={dx=0,dy=0}
+Element={feed=1500,fart=1/10,high=0}
 Element:new(x,y)
  o={dx=x,dy=y}
  setmetatqble(o,self)
@@ -24,6 +24,8 @@ function Element:skimto(x,y)
  print(x+self.dx 
  puddon
 end
+
+Towers=Element:
 
 
 eaves
