@@ -8,9 +8,8 @@ Element={dx=0,dy=0}
 Element:new(x,y)
  o={dx=x,dy=y}
  setmetatqble(o,self)
- 
- self.dx=x
- self.dy=y
+ return o
+end
  
 function Element:retact()
 extrude narg
