@@ -56,7 +56,7 @@ function Tower:new(x,y,r)
  t:skimto(r,0)
  t:remember(r,0)
  print("G2F"..self.Feed)
- t:basis()
+ t:basis(0)
  return t
 end
 
@@ -115,9 +115,9 @@ function Tower:build(dz)
  end
 end
 
-function Tower:basis()
- self:_archto(self.Pi,0,self:ex(self.Pi))
- self:_archto(self.Pi,0,self:ex(self.Pi))
+function Tower:basis(place)
+ self:_archto(self.Pi,place,self:ex(self.Pi))
+ self:_archto(self.Pi,place,self:ex(self.Pi))
 end
 
 Turret={Hole=2}
@@ -138,7 +138,7 @@ function Turret:dryarc(th,h)
  dz = self:heightransfer(th)
  self:_archto(th/2,self.cz+h,0)
  self.cz=self.cz+dz
- self:_archto(th/2,self.cz,0)
+ self:_archto(th/2,self.cz,1/100)
 end
 
 function Turret:punch(dz)
@@ -148,22 +148,43 @@ function Turret:punch(dz)
  sz=self.cz
  while (self.cz<sz+dz) do
   if self.cp ~= 0 then self:archto(self.cp) end
-  self:dryarc(th,dz-self.cz+sz)
+  self:dryarc(th,dz*2/3-self.cz+sz)
   self:archto(2*self.Pi-th-self.cp)
  end
  self.cp=self.cp+self.pattern
  
 end
 
+Tuber={Segments=2,Turns=20}
+setmetatable(Tuber,Turret)
+Tuber.__index=Tuber
 
-t=Turret:new(100,100,10,math.pi/3)
-t:build(5)
-t:punch(1)
-t:build(10)
-t:punch(1)
-t:build(10)
-t:punch(1)
-t:build(5)
+function Tuber:new(pre,rad,seg,tur,pat)
+ p = pat or math.pi/5
+ t=Turret:new(100,100,rad,p)
+ setmetatable(t,self)
+ t.pre=pre
+ t.seg=seg
+ t.tur=tur
+ 
+ return t
+end
+
+function Tuber:compile()
+ t:build(self.pre)
+ for i=1,self.seg do
+  t:punch(1)
+  t:build(self.tur*self.Pitch)
+ end
+ t:punch(1)
+ t:build(5)
+ t:basis(self.cz)
+ t:retact(10)
+end
+
+--prespace,diameter,segments,turnsper
+t=Tuber:new(arg[1],arg[2]/2,arg[3],arg[4],math.pi/5)
+t:compile()
 
 
 

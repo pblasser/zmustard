@@ -5,7 +5,8 @@ PP=> $(DD)
 
 main: clean
 main: 
-	lua Tower.lua 20 $(PP)20spiral.gcode
+	lua Tower.lua 5 30 2 33 $(PP)30-33.gcode
+	lua Tower.lua 10 20 2 33 $(PP)20-33.gcode
 
 clean:
 	-rm $(DD)*
