@@ -16,6 +16,7 @@ function Bottle:prelude()
 end
 
 function Bottle:extrud(mm)
+ print("G1E"..mm)
 end
 function Bottle:retact(mm)
  narg=-0.5
@@ -24,7 +25,7 @@ function Bottle:retact(mm)
 end
 
 function Bottle:puddon()
- zerp=0
+ zerp=0.5
  self:extrud(zerp)
  print("G1Z"..self.cz)
 end
@@ -66,31 +67,39 @@ function Tower:remember(x,y)
 end 
 
 function Tower:heightransfer(deth)
- dz = (deth/self.Pi)*self.Pitch
- self.cz = self.cz + dz
- return cz
+ dz = (deth/self.Pi)*self.Pitch/2
+ return dz
+ --self.cz = self.cz + dz
+ --return cz
+end
+
+function Tower:ex(deth)
+ de = deth*self.radio*self.Filament
+ return de
 end
 
 function Tower:oiler(th)
  x=self.radio * math.cos(th)
- y=self.radio * math.sin(th)
+ y=-self.radio * math.sin(th)
  return x,y
 end
 
-function Tower:_archto(th,z)
- x,y=self:oiler(th)
+function Tower:_archto(th,z,e)
+ self:spin(th)
+ --print(th,z,e)
+ x,y=self:oiler(self.cth)
  --self:spin(th)
  --z = (self.cz + dz) or heightransfer(th)
- s = string.format("G2X%.4fY%.4fZ%.4fI%.4fJ%.4f",
-  self.dx+x,self.dy+y,z,-self.cx,-self.cy)
+ s = string.format("G2X%.4fY%.4fZ%.4fI%.4fJ%.4fE%.4f",
+  self.dx+x,self.dy+y,z,-self.cx,-self.cy,e)
  print(s)
  --print("G2X"..x.."Y"..y.."Z"..z..
  -- "I"..(-self.cx).."J"..(-self.cy))
  self:remember(x,y)
 end
 function Tower:archto(th)
- self:heightransfer(th)
- self:_archto(th,self.cz)
+ self.cz = self.cz + self:heightransfer(th)
+ self:_archto(th,self.cz,self:ex(th))
 end
 
 function Tower:spin(th)
@@ -101,24 +110,60 @@ end
 function Tower:build(dz)
  sz=self.cz
  while (self.cz<sz+dz) do
-  self:spin(self.Pi)
-  self:archto(self.cth)
+  --self:spin(self.Pi)
+  self:archto(self.Pi)
  end
 end
 
 function Tower:basis()
- self:spin(self.Pi)
- self:_archto(self.cth,0)
+ self:_archto(self.Pi,0,self:ex(self.Pi))
+ self:_archto(self.Pi,0,self:ex(self.Pi))
+end
+
+Turret={Hole=2}
+setmetatable(Turret,Tower)
+Turret.__index=Turret
+
+
+function Turret:new(x,y,r,p)
+ t=Tower:new(x,y,r)
+ setmetatable(t,self)
+ t.pattern=p 
+ t.cp = 0
+ return t
+end
+
+function Turret:dryarc(th,h)
+ --tth=th/2
+ dz = self:heightransfer(th)
+ self:_archto(th/2,self.cz+h,0)
+ self.cz=self.cz+dz
+ self:_archto(th/2,self.cz,0)
+end
+
+function Turret:punch(dz)
  
- self:spin(self.Pi)
- self:_archto(self.cth,0)
+ th=self.Hole/self.radio
+ --print(th)
+ sz=self.cz
+ while (self.cz<sz+dz) do
+  if self.cp ~= 0 then self:archto(self.cp) end
+  self:dryarc(th,dz-self.cz+sz)
+  self:archto(2*self.Pi-th-self.cp)
+ end
+ self.cp=self.cp+self.pattern
+ 
 end
 
 
-
-
-t=Tower:new(100,100,10)
-t:build(100)
+t=Turret:new(100,100,10,math.pi/3)
+t:build(5)
+t:punch(1)
+t:build(10)
+t:punch(1)
+t:build(10)
+t:punch(1)
+t:build(5)
 
 
 
