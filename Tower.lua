@@ -3,7 +3,7 @@
 Bottle={Pitch=0.5,Filament=1/10,Feed=1500}
 
 function Bottle:new(x,y)
- b = {cx=0,cy=0,cz=0,dx=x,dy=y}
+ b = {cx=0,cy=0,cz=0.5,dx=x,dy=y}
  --print(self)
  setmetatable(b,self)
  self.__index = self
@@ -56,7 +56,7 @@ function Tower:new(x,y,r)
  t:skimto(r,0)
  t:remember(r,0)
  print("G2F"..self.Feed)
- t:basis(0)
+ t:basis(0.5)
  return t
 end
 
@@ -155,7 +155,7 @@ function Turret:punch(dz)
  
 end
 
-Tuber={Segments=2,Turns=20}
+Tuber={}
 setmetatable(Tuber,Turret)
 Tuber.__index=Tuber
 
@@ -183,7 +183,14 @@ function Tuber:compile()
 end
 
 --prespace,diameter,segments,turnsper
+b = Bottle:new(10,10)
+b.cz=0.5
+b:skimto(0,0)
+b:lineto(0,200,0)
+b:lineto(2,200,0)
+b:lineto(2,0,0)
 t=Tuber:new(arg[1],arg[2]/2,arg[3],arg[4],math.pi/5)
+t.cz=0.5
 t:compile()
 
 
