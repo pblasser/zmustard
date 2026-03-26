@@ -1,18 +1,48 @@
 
 
-Bottle={Pitch=0.5,Filament=1/10,Feed=1500}
+Bottle={Pitch=0.5,Filament=1/10,Feed=1200}
 
 function Bottle:new(x,y)
  b = {cx=0,cy=0,cz=0.5,dx=x,dy=y}
  --print(self)
  setmetatable(b,self)
  self.__index = self
- self:prelude()
+ 
  return b
 end
 
 function Bottle:prelude()
- print("G21G90")
+ print("G21G90") --mm abs
+
+ print("M140 S67")
+ print("M105")
+ print("M190 S67")
+
+ print("M104 S210")
+print("M105")
+print("M109 S210")
+
+print("M83") --rel extr
+print("G92 E0") --reset ext
+print("G28") --home
+
+print("M107") --fan off
+print("G1F"..self.Feed)
+print("G2F"..self.Feed)
+end
+
+function Bottle:poslude()
+	print("M140 S0")-- ;bed cooler
+print("M107")-- ;fan off
+print("M106 S0")-- ;Turn-off fan
+print("M104 S0")-- ;Turn-off hotend
+print("M140 S0")-- ;Turn-off bed
+--print("M84 X Y E")-- ;Disable all steppers but Z
+print("M82")--
+end 
+
+
+function Bottle:fanner()
 end
 
 function Bottle:extrud(mm)
@@ -35,13 +65,26 @@ function Bottle:skimto(x,y)
  print("G0X"..x+self.dx.."Y"..y+self.dy.."F300")
  --self:update(x,y)
  self:puddon()
- print("G1F"..self.Feed)
+ --print("G1F"..self.Feed)
+ self:remember(x,y)
+end
+
+function Bottle:remember(x,y)
+ self.cx=x
+ self.cy=y
+ --self.cz=z
+end 
+
+function Bottle:ex(x,y)
+ d = math.sqrt(x*x + y*y)
+ dc = math.sqrt(self.cx*self.cx + self.cy*self.cy)
+ return math.abs(dc-d) * self.Filament
 end
 
 function Bottle:lineto(x,y,dz)
  self.cz = self.cz + dz
- print("G1X"..x+self.dx.."Y"..y+self.dy.."Z"..self.cz)
- --self:update(x,y)
+ print("G1X"..x+self.dx.."Y"..y+self.dy.."Z"..self.cz.."E"..self:ex(x,y))
+ self:remember(x,y)
 end
 
 Tower={Pi=math.pi}
@@ -55,16 +98,10 @@ function Tower:new(x,y,r)
  t.cth=0
  t:skimto(r,0)
  t:remember(r,0)
- print("G2F"..self.Feed)
+ --print("G2F"..self.Feed)
  t:basis(0.5)
  return t
 end
-
-function Tower:remember(x,y)
- self.cx=x
- self.cy=y
- --self.cz=z
-end 
 
 function Tower:heightransfer(deth)
  dz = (deth/self.Pi)*self.Pitch/2
@@ -185,6 +222,7 @@ end
 --prespace,diameter,segments,turnsper
 b = Bottle:new(10,10)
 b.cz=0.5
+b:prelude()
 b:skimto(0,0)
 b:lineto(0,200,0)
 b:lineto(2,200,0)
@@ -192,6 +230,7 @@ b:lineto(2,0,0)
 t=Tuber:new(arg[1],arg[2]/2,arg[3],arg[4],math.pi/5)
 t.cz=0.5
 t:compile()
+t:poslude()
 
 
 
