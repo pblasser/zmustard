@@ -1,4 +1,4 @@
-Bottle={Pitch=0.5,Filament=1/10,Feed=1200}
+Bottle={Pitch=0.5,Filament=1/5,Feed=1200}
 
 function Bottle:new(x,y)
  b = {cx=0,cy=0,cz=0.5,dx=x,dy=y}
@@ -70,7 +70,12 @@ end
 
 function Bottle:skimto(x,y)
  self:retact(2)
- print("G0X"..x+self.dx.."Y"..y+self.dy.."F300")
+  --s=self:stringer(2,"XYZIJE",3)
+
+ s = string.format(self:stringer(0,"XYF",3),
+  x+self.dx,y+self.dy,self.Feed)
+ print(s)
+ --print("G0X"..x+self.dx.."Y"..y+self.dy.."F300")
  --self:update(x,y)
  self:puddon()
  --print("G1F"..self.Feed)
@@ -91,6 +96,9 @@ end
 
 function Bottle:lineto(x,y,dz)
  self.cz = self.cz + dz
- print("G1X"..x+self.dx.."Y"..y+self.dy.."Z"..self.cz.."E"..self:ex(x,y))
+ 
+  s = string.format(self:stringer(1,"XYZE",3),
+ x+self.dx,y+self.dy,self.cz,self:ex(x,y))
+ print(s)
  self:remember(x,y)
 end
