@@ -62,9 +62,10 @@ function Tower:spin(th)
 end
 
 function Tower:build(dz)
- sz=self.cz
- while (self.cz<sz+dz) do
+ --sz=self.cz
+ for i=1,dz do
   --self:spin(self.Pi)
+  self:archto(self.Pi)
   self:archto(self.Pi)
  end
 end
@@ -74,7 +75,7 @@ function Tower:basis(place)
  self:_archto(self.Pi,place,self:ex(self.Pi))
 end
 
-Turret={Hole=2}
+Turret={Hole=4}
 setmetatable(Turret,Tower)
 Turret.__index=Turret
 
@@ -87,12 +88,17 @@ function Turret:new(x,y,r,p)
  return t
 end
 
-function Turret:dryarc(th,h)
+function Turret:dryarc(th)
  --tth=th/2
- dz = self:heightransfer(th)
- self:_archto(th/2,self.cz+h,0)
- self.cz=self.cz+dz
- self:_archto(th/2,self.cz,1/100)
+ --dz = self:heightransfer(th)
+ --self:_archto(th/2,self.cz+h,0)
+ --self.cz=self.cz+dz
+ --self:_archto(th/2,self.cz,1/100)
+ self:extrud(-1)
+ self.cz = self.cz + self:heightransfer(th)
+ self:_archto(th,self.cz,0)
+  self:extrud(1)
+ 
 end
 
 function Turret:punch(dz)
@@ -102,7 +108,7 @@ function Turret:punch(dz)
  sz=self.cz
  while (self.cz<sz+dz) do
   if self.cp ~= 0 then self:archto(self.cp) end
-  self:dryarc(th,dz*2/3-self.cz+sz)
+   self:dryarc(th)
   self:archto(2*self.Pi-th-self.cp)
  end
  self.cp=self.cp+self.pattern
@@ -127,10 +133,10 @@ end
 function Tuber:compile()
  t:build(self.pre)
  for i=1,self.seg do
-  t:punch(1)
+  t:punch(0.5)
   t:build(self.tur*self.Pitch)
  end
- t:punch(1)
+ t:punch(0.5)
  t:build(5)
  t:basis(self.cz)
  t:retact(10)
