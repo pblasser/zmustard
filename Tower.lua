@@ -75,7 +75,7 @@ function Tower:basis(place)
  self:_archto(self.Pi,place,self:ex(self.Pi))
 end
 
-Turret={Hole=4}
+Turret={Hole=1}
 setmetatable(Turret,Tower)
 Turret.__index=Turret
 
@@ -109,7 +109,9 @@ function Turret:punch(dz)
  while (self.cz<sz+dz) do
   if self.cp ~= 0 then self:archto(self.cp) end
    self:dryarc(th)
-  self:archto(2*self.Pi-th-self.cp)
+   self:archto(th)
+   self:dryarc(th)
+  self:archto(2*self.Pi-(3*th)-self.cp)
  end
  self.cp=self.cp+self.pattern
  
