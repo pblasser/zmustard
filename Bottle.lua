@@ -1,4 +1,4 @@
-Bottle={Pitch=0.5,Filament=1/5,Feed=1200}
+Bottle={Pitch=0.5,Filament=1/7,Feed=1200}
 
 function Bottle:new(x,y)
  b = {cx=0,cy=0,cz=0.5,dx=x,dy=y}
@@ -25,6 +25,7 @@ print("G92 E0") --reset ext
 print("G28") --home
 
 print("M107") --fan off
+print("M106 S100") --fan on
 print("G1F"..self.Feed)
 print("G2F"..self.Feed)
 end
