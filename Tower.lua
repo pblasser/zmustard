@@ -149,8 +149,8 @@ b = Bottle:new(10,10)
 b.cz=0.5
 b:prelude()
 b:skimto(0,0)
-b:lineto(0,200,0)
-b:lineto(2,200,0)
+b:lineto(0,100,0)
+b:lineto(2,100,0)
 b:lineto(2,0,0)
 t=Tuber:new(arg[1],arg[2]/2,arg[3],arg[4],math.pi/5)
 t.cz=0.5
