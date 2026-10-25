@@ -143,7 +143,7 @@ function Tuber:compile()
   t:build(self.tur)
  end
  t:punch(1)
- t:build(5)
+ t:build(self.pre)
  t:basis(self.cz)
  t:retact(10)
 end
