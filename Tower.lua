@@ -6,15 +6,18 @@ Tower={Pi=math.pi}
 setmetatable(Tower,Bottle)
 Tower.__index=Tower
 
-function Tower:new(x,y,r)
+function Tower:new(x,y,r,g)
  t=Bottle:new(x,y)
  setmetatable(t,self)
+ t.gique=g
  t.radio=r 
  t.cth=0
+ t.cz=self.Pitch/2
  t:skimto(r,0)
  t:remember(r,0)
  --print("G2F"..self.Feed)
- t:basis(0.5)
+ 
+ t:basis(t.cz)
  return t
 end
 
@@ -31,8 +34,9 @@ function Tower:ex(deth)
 end
 
 function Tower:oiler(th)
- x=self.radio * math.cos(th)
- y=-self.radio * math.sin(th)
+ g=(self.gique-2)*(-2)+1
+ x=self.radio * math.cos(th*g)
+ y=-self.radio * math.sin(th*g)
  return x,y
 end
 
@@ -44,7 +48,7 @@ function Tower:_archto(th,z,e)
  --z = (self.cz + dz) or heightransfer(th)
  s=self:stringer(2,"XYZIJE",3)
 
- s = string.format(self:stringer(2,"XYZIJE",3),
+ s = string.format(self:stringer(self.gique,"XYZIJE",3),
   self.dx+x,self.dy+y,z,-self.cx,-self.cy,e)
  print(s)
  --print("G2X"..x.."Y"..y.."Z"..z..
@@ -80,8 +84,8 @@ setmetatable(Turret,Tower)
 Turret.__index=Turret
 
 
-function Turret:new(x,y,r,p)
- t=Tower:new(x,y,r)
+function Turret:new(x,y,r,g,p)
+ t=Tower:new(x,y,r,g)
  setmetatable(t,self)
  t.pattern=p 
  t.cp = 0
@@ -106,13 +110,13 @@ function Turret:punch(dz)
  th=self.Hole/self.radio
  --print(th)
  sz=self.cz
- while (self.cz<sz+dz) do
-  if self.cp ~= 0 then self:archto(self.cp) end
+ --while (self.cz<sz+dz) do
+  --if self.cp ~= 0 then self:archto(self.cp) end
    --self:dryarc(th)
    --self:archto(th)
    self:dryarc(th)
-  self:archto(2*self.Pi-(1*th)-self.cp)
- end
+  self:archto(self.pattern)
+ --end
  self.cp=self.cp+self.pattern
  
 end
@@ -121,9 +125,9 @@ Tuber={}
 setmetatable(Tuber,Turret)
 Tuber.__index=Tuber
 
-function Tuber:new(pre,rad,seg,tur,pat)
+function Tuber:new(giq,pre,rad,seg,tur,pat)
  p = pat or math.pi/5
- t=Turret:new(100,100,rad,p)
+ t=Turret:new(100,100,rad,giq,p)
  setmetatable(t,self)
  t.pre=pre
  t.seg=seg
@@ -144,16 +148,17 @@ function Tuber:compile()
  t:retact(10)
 end
 
---prespace,diameter,segments,turnsper
+--gique,prespace,diameter,segments,turnsper
 b = Bottle:new(10,10)
 b.cz=0.5
+--b.cz=1
 b:prelude()
 b:skimto(0,0)
 b:lineto(0,100,0)
 b:lineto(2,100,0)
 b:lineto(2,0,0)
-t=Tuber:new(arg[1],arg[2]/2,arg[3],arg[4],math.pi/5)
-t.cz=0.5
+t=Tuber:new(arg[1],arg[2],arg[3]/2,arg[4],arg[5],math.pi/10)
+--t.cz=1
 t:compile()
 t:poslude()
 

@@ -1,7 +1,10 @@
 Bottle={Pitch=0.5,Filament=1/7,Feed=1200}
+Bottle={Pitch=1,Filament=1/4,Feed=1200}
+filconstant=((1/2)*(1/2)*math.pi) / ((1.75/2)*(1.75/2)*math.pi)
+Bottle={Pitch=1,Filament=filconstant,Feed=1200}
 
 function Bottle:new(x,y)
- b = {cx=0,cy=0,cz=0.5,dx=x,dy=y}
+ b = {cx=0,cy=0,cz=self.Pitch,dx=x,dy=y}
  --print(self)
  setmetatable(b,self)
  self.__index = self
