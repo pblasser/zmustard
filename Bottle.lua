@@ -5,11 +5,18 @@ filconstant=((1/2)*(1/2)*math.pi) / ((1.75/2)*(1.75/2)*math.pi)
 Bottle={Pitch=1,Filament=filconstant*1.5,Feed=600}
 --Bottle={Pitch=0.5,Filament=1/7,Feed=1200}
 function Bottle:new(x,y)
- b = {cx=0,cy=0,cz=self.Pitch,dx=x,dy=y}
+ b = {cx=0,cy=0,cz=self.Pitch,dx=0,dy=0}
  --print(self)
  setmetatable(b,self)
  self.__index = self
- 
+ b.cz=self.Pitch/2
+ b:prelude()
+ b:skimto(0,0)
+ b:lineto(0,100,0)
+ b:lineto(2,100,0)
+ b:lineto(2,0,0)
+ b.dx=x
+ b.dy=y
  return b
 end
 
